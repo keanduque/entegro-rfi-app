@@ -13,35 +13,35 @@ app.use(cors());
 app.use(express.json()); //req.body
 env.config();
 
-app.get("/", (req, res) => {
-  res.json({ message: "Welcome to the API" });
-});
-
-// const tbl_rfi = "rfi_tracker";
-// const tbl_survey = "survey_status";
-// const tbl_wayleave = "wayleave_tracker";
-// const LIMIT = 10;
-
-// // Routes
-
-// // getting all RFI data for Stats Dashboard
-// app.get("/api/v1/rfis/stats", async (req, res) => {
-//   try {
-//     const totalCountRes = await pool.query(`SELECT COUNT(*) FROM ${tbl_rfi}`);
-//     const totalCount = parseInt(totalCountRes.rows[0].count, 10);
-
-//     const allRFI = await pool.query(
-//       `SELECT * FROM ${tbl_rfi} ORDER BY id DESC`
-//     );
-//     res.json({
-//       data: allRFI.rows,
-//       totalCount,
-//     });
-//   } catch (err) {
-//     console.log(err.message);
-//     res.status(500).json({ error: "Server error" });
-//   }
+// app.get("/", (req, res) => {
+//   res.json({ message: "Welcome to the API" });
 // });
+
+const tbl_rfi = "rfi_tracker";
+const tbl_survey = "survey_status";
+const tbl_wayleave = "wayleave_tracker";
+const LIMIT = 10;
+
+// Routes
+
+// getting all RFI data for Stats Dashboard
+app.get("/api/v1/rfis/stats", async (req, res) => {
+  try {
+    const totalCountRes = await pool.query(`SELECT COUNT(*) FROM ${tbl_rfi}`);
+    const totalCount = parseInt(totalCountRes.rows[0].count, 10);
+
+    const allRFI = await pool.query(
+      `SELECT * FROM ${tbl_rfi} ORDER BY id DESC`
+    );
+    res.json({
+      data: allRFI.rows,
+      totalCount,
+    });
+  } catch (err) {
+    console.log(err.message);
+    res.status(500).json({ error: "Server error" });
+  }
+});
 
 // //Get all rfis data
 // app.get("/api/v1/rfis", async (req, res) => {
