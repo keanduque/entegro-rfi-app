@@ -399,12 +399,12 @@ app.get("/api/v1/rfi/survey/:rfi_reference", async (req, res) => {
 
 /******************************************END WAYLEAVE AND SURVEY********************************************* */
 
-// app.use(express.static(path.join(__dirname + "/public")));
+app.use(express.static(path.join(__dirname + "/public")));
 
-// // Catch-All Route for React
-// app.get("*", (req, res) => {
-//   res.sendFile(path.join(__dirname, "/public", "index.html"));
-// });
+// Catch-All Route for React
+app.get("*", (req, res) => {
+  res.sendFile(path.join(__dirname, "/public", "index.html"));
+});
 
 const PORT = process.env.PORT || 5000;
 
