@@ -7,7 +7,23 @@ const env = require("dotenv");
 const path = require("path");
 
 // Use the CORS middleware with the options
-app.use(cors());
+const allowedOrigins = [
+  "https://entegro-rfi-app-client.vercel.app", // Add your client origin here
+];
+
+const corsOptions = {
+  origin: (origin, callback) => {
+    if (allowedOrigins.includes(origin) || !origin) {
+      callback(null, true);
+    } else {
+      callback(new Error("Not allowed by CORS"));
+    }
+  },
+  methods: ["GET", "POST", "PUT", "DELETE"], // Allowed methods
+  allowedHeaders: ["Content-Type", "Authorization"], // Allowed headers
+};
+
+app.use(cors(corsOptions));
 
 //app.use(bodyParser.json());
 app.use(express.json()); //req.body
