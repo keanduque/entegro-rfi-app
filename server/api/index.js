@@ -21,7 +21,9 @@ const LIMIT = 10;
 // Routes
 
 console.log("Starting database query");
-const allRFI = await pool.query(`SELECT * FROM ${tbl_rfi} ORDER BY id DESC`);
+app.get("/", (req, res) => {
+  res.json({ message: "Welcome to the API" });
+});
 console.log("Query finished");
 
 // // getting all RFI data for Stats Dashboard
