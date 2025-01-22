@@ -25,85 +25,85 @@ const LIMIT = 10;
 // Routes
 
 // getting all RFI data for Stats Dashboard
-app.get("/api/v1/rfis/stats", async (req, res) => {
-  try {
-    const totalCountRes = await pool.query(`SELECT COUNT(*) FROM ${tbl_rfi}`);
-    const totalCount = parseInt(totalCountRes.rows[0].count, 10);
-
-    const allRFI = await pool.query(
-      `SELECT * FROM ${tbl_rfi} ORDER BY id DESC`
-    );
-    res.json({
-      data: allRFI.rows,
-      totalCount,
-    });
-  } catch (err) {
-    console.log(err.message);
-    res.status(500).json({ error: "Server error" });
-  }
-});
-
-// //Get all rfis data
-// app.get("/api/v1/rfis", async (req, res) => {
+// app.get("/api/v1/rfis/stats", async (req, res) => {
 //   try {
-//     const {
-//       current_status,
-//       status_entegro,
-//       rfi_reference,
-//       da,
-//       page = 1,
-//       sortBy,
-//     } = req.query;
-//     const limit = LIMIT;
-//     const offset = (page - 1) * limit;
-
-//     // Build filter conditions
-//     let filterConditions = [];
-
-//     if (current_status && current_status !== "all") {
-//       filterConditions.push(`current_status = '${current_status}'`);
-//     }
-//     if (status_entegro && status_entegro !== "all") {
-//       filterConditions.push(`status_entegro = '${status_entegro}'`);
-//     }
-//     if (rfi_reference) {
-//       filterConditions.push(`rfi_reference::TEXT ILIKE '%${rfi_reference}%'`);
-//     }
-//     if (da && da !== "all") {
-//       filterConditions.push(`da = '${da}'`);
-//     }
-
-//     const filterCondition =
-//       filterConditions.length > 0
-//         ? `WHERE ${filterConditions.join(" AND ")}`
-//         : "";
-
-//     // Fetch total count for the filtered condition
-//     const totalCountRes = await pool.query(
-//       `SELECT COUNT(*) FROM ${tbl_rfi} ${filterCondition}`
-//     );
+//     const totalCountRes = await pool.query(`SELECT COUNT(*) FROM ${tbl_rfi}`);
 //     const totalCount = parseInt(totalCountRes.rows[0].count, 10);
 
-//     // Apply sorting logic
-//     let sortByQuery = "id DESC"; // Default sorting by id descending
-//     if (sortBy) {
-//       const [field, direction] = sortBy.split("-");
-//       sortByQuery = `${field} ${direction}`;
-//     }
-
-//     // Fetch paginated data with filter and sorting
 //     const allRFI = await pool.query(
-//       `SELECT * FROM ${tbl_rfi} ${filterCondition} ORDER BY ${sortByQuery} LIMIT ${limit} OFFSET ${offset}`
+//       `SELECT * FROM ${tbl_rfi} ORDER BY id DESC`
 //     );
-
 //     res.json({
 //       data: allRFI.rows,
 //       totalCount,
 //     });
 //   } catch (err) {
 //     console.log(err.message);
+//     res.status(500).json({ error: "Server error" });
 //   }
 // });
+
+//Get all rfis data
+app.get("/api/v1/rfis", async (req, res) => {
+  try {
+    const {
+      current_status,
+      status_entegro,
+      rfi_reference,
+      da,
+      page = 1,
+      sortBy,
+    } = req.query;
+    const limit = LIMIT;
+    const offset = (page - 1) * limit;
+
+    // Build filter conditions
+    let filterConditions = [];
+
+    if (current_status && current_status !== "all") {
+      filterConditions.push(`current_status = '${current_status}'`);
+    }
+    if (status_entegro && status_entegro !== "all") {
+      filterConditions.push(`status_entegro = '${status_entegro}'`);
+    }
+    if (rfi_reference) {
+      filterConditions.push(`rfi_reference::TEXT ILIKE '%${rfi_reference}%'`);
+    }
+    if (da && da !== "all") {
+      filterConditions.push(`da = '${da}'`);
+    }
+
+    const filterCondition =
+      filterConditions.length > 0
+        ? `WHERE ${filterConditions.join(" AND ")}`
+        : "";
+
+    // Fetch total count for the filtered condition
+    const totalCountRes = await pool.query(
+      `SELECT COUNT(*) FROM ${tbl_rfi} ${filterCondition}`
+    );
+    const totalCount = parseInt(totalCountRes.rows[0].count, 10);
+
+    // Apply sorting logic
+    let sortByQuery = "id DESC"; // Default sorting by id descending
+    if (sortBy) {
+      const [field, direction] = sortBy.split("-");
+      sortByQuery = `${field} ${direction}`;
+    }
+
+    // Fetch paginated data with filter and sorting
+    const allRFI = await pool.query(
+      `SELECT * FROM ${tbl_rfi} ${filterCondition} ORDER BY ${sortByQuery} LIMIT ${limit} OFFSET ${offset}`
+    );
+
+    res.json({
+      data: allRFI.rows,
+      totalCount,
+    });
+  } catch (err) {
+    console.log(err.message);
+  }
+});
 
 // //Get data by rfi_referemce
 // app.get("/api/v1/rfis/rfi/:rfi_reference", async (req, res) => {
