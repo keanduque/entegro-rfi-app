@@ -21,7 +21,7 @@ const LIMIT = 10;
 // Routes
 
 console.log("Starting database query");
-app.get("/", (req, res) => {
+app.get("/api/v1", (req, res) => {
   res.json({ message: "Welcome to the API" });
 });
 console.log("Query finished");
