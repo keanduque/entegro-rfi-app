@@ -8,7 +8,7 @@ const path = require("path");
 
 // Use the CORS middleware with the options
 const allowedOrigins = [
-  "https://entegro-rfi-app-client.vercel.app", // Add your client origin here
+  "https://entegro-rfi-app-server.vercel.app", // Add your client origin here
 ];
 
 const corsOptions = {
